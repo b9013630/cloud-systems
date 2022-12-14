@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the storage account that will be created."
+      },
+      "defaultValue": "superdesign[uniqueString(resourceGroup().id, deployment().name)]" //this assigns the parameter  a default value of superdesign + a unique id
+    }
+  },
+  "variables": {
+    "storageAccountLocation": "UK South" //sets the location variable to uk south 
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-04-01",
+      "name": "[parameters('storageAccountName')]", //names the storage the paramter defined earlier
+      "location": "[variables('storageAccountLocation')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "BlobStorage",
+      "properties": {
+        "accessTier": "Hot"
+      }
+    }
+  ]
+}
